@@ -1,90 +1,110 @@
-# Bitcoin Community Learning Hub
+# Bitcoin Signal Hub
 
-A Streamlit-based educational platform designed to help users learn about Bitcoin through structured modules for beginners, intermediate, and advanced learners.
+A Streamlit-based signal platform for Bitcoin: on-chain analytics, merchant adoption, daily briefs, and structured learning paths. Designed for clarity and signal over noise.
 
-## 🚀 Quick Start
+## Quick Start
 
-1. Clone the repository:
-```bash
-git clone https://github.com/ssvnikhil/BitcoinCommunity.git
-cd BitcoinCommunity
-```
-
-2. Install the required dependencies:
+1. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the Streamlit application:
+2. Run the app:
 ```bash
-cd src
-streamlit run app.py
+streamlit run src/app.py
 ```
 
-## 📚 Project Structure
+## Task Runner
+
+This repo includes both `Taskfile.yml` (go-task default) and `task.yml`:
+
+```bash
+task setup
+task run
+```
+
+## Features
+
+- **Signal Desk**: Bitcoin primer, asset comparisons, on-chain signals, merchant adoption map, daily brief
+- **Learning Platform**: Beginner → Intermediate → Advanced modules
+- **Alerts (Coming Soon)**: BTC price alerts (pipeline scaffolded, disabled until infra is configured)
+
+## Merchant Adoption Data
+
+Merchant data is sourced from OpenStreetMap tags commonly used by BTC Map:
+
+- `currency:XBT=yes`
+- `payment:onchain=yes`
+- `payment:lightning=yes`
+- `payment:lightning_contactless=yes`
+
+Large countries can be slow to query; using a state/province improves performance.
+
+## Price Alerts (Production-Style)
+
+Pipeline:
+- UI: Streamlit Alerts tab
+- DB: Supabase (free tier)
+- Worker: GitHub Actions cron (hourly)
+- Email: Gmail SMTP (App Password)
+
+### Supabase Setup
+
+Run `supabase.sql` in Supabase to create the `alerts` table.
+
+### Local Environment Variables (optional)
+
+```
+SUPABASE_URL=
+SUPABASE_SERVICE_KEY=
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_gmail_address
+SMTP_PASSWORD=your_gmail_app_password
+FROM_EMAIL=your_gmail_address
+```
+
+### GitHub Actions Secrets
+
+Set these in repo settings:
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_KEY`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASSWORD`
+- `FROM_EMAIL`
+
+## Project Structure
 
 ```
 BitcoinCommunity/
-├── requirements.txt
+├── .github/
+│   └── workflows/
+│       └── alert_worker.yml
+├── scripts/
+│   └── alert_worker.py
 ├── src/
+│   ├── alerts.py
 │   ├── app.py
+│   ├── utils.py
 │   └── modules/
-│       ├── __init__.py
+│       ├── alerts.py
+│       ├── advanced.py
 │       ├── beginner.py
 │       ├── intermediate.py
-│       └── advanced.py
+│       └── signal_desk.py
+├── requirements.txt
+├── Taskfile.yml
+├── task.yml
+└── supabase.sql
 ```
 
-## 🌟 Features
+## Notes
 
-- Three learning modules: Beginner, Intermediate, and Advanced
-- Interactive UI with expandable sections
-- Progress tracking for each module
-- Responsive design that works on both desktop and mobile
-- Easy-to-navigate sidebar menu
+- The Daily Brief RSS parser has a built-in fallback that works even if `feedparser` isn’t installed.
+- For large on-chain numbers, values are shown in compact format (K/M/B/T).
 
-## 📝 Module Contents
+## License
 
-### Beginner Module
-- Introduction to Bitcoin
-- Understanding Digital Currency
-- Bitcoin Wallets
-- Making Your First Transaction
-
-### Intermediate Module
-- Bitcoin Network Architecture
-- Mining and Consensus
-- Bitcoin Economics
-- Security Best Practices
-
-### Advanced Module
-- Protocol Deep Dive
-- Lightning Network
-- Smart Contracts on Bitcoin
-- Future Developments
-
-## 🔧 Development
-
-To contribute to this project:
-
-1. Fork the repository
-2. Create a new branch for your feature
-3. Make your changes
-4. Submit a pull request
-
-## 📱 Deployment
-
-This application can be deployed on Streamlit Share:
-
-1. Visit https://share.streamlit.io/
-2. Connect your GitHub repository
-3. Select the main file (src/app.py)
-4. Deploy!
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+MIT

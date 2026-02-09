@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  setup:
+    desc: Create a virtual environment and install dependencies
+    cmds:
+      - python3 -m venv .venv
+      - . .venv/bin/activate && pip install -r requirements.txt
+    status:
+      - test -f .venv/bin/activate
+
+  run:
+    desc: Run the Streamlit app
+    deps: [setup]
+    cmds:
+      - . .venv/bin/activate && streamlit run src/app.py
