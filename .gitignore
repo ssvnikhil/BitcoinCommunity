@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Streamlit
+.streamlit/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Env files
+.env
+.env.*
+
+# Data/cache
+*.sqlite3
+.cache/

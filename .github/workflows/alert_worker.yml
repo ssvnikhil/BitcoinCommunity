@@ -1,0 +1,16 @@
+name: BTC Alert Worker (Disabled)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: alert-worker-disabled
+  cancel-in-progress: false
+
+jobs:
+  run-alerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disabled
+        run: |
+          echo "Alert worker is disabled. Coming soon."
